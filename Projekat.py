@@ -12,7 +12,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-podaci = pd.read_csv("final_modified_healthcare-dataset-stroke-data.csv") #
+podaci = pd.read_csv("C:\\Users\\Lenovo\\Desktop\\University 2024-25\\Diplomski\\final_modified_healthcare-dataset-stroke-data.csv") #
 
 
 podaci.replace('?', np.nan, inplace=True) #
@@ -64,17 +64,60 @@ enkoderi = {}
 for kolona in kategorijske_vrijednosti:
     enkoderi[kolona] = joblib.load(f'enkoderi/{kolona}_enkoder.pkl')
 
+# Prevod
+gender_mapping = {
+    "Female": "Ženski",
+    "Male": "Muški",
+    "Other": "Ostali"
+}
+
+ever_married_mapping = {
+    "No": "Ne",
+    "Yes": "Da"
+}
+
+work_type_mapping = {
+    "Govt_job": "Državni",
+    "Never_worked": "Nezaposlen",
+    "Private": "Privatni",
+    "Self-employed": "Samozaposlen",
+    "children": "Dijete"
+}
+
+Residence_type_mapping = {
+    "Rural": "Ruralno",
+    "Urban": "Urbano"
+}
+
+smoking_status_mapping = {
+    "Unknown": "Neizjavljeno",
+    "formerly smoked": "Bivši pušač",
+    "never smoked": "Nepušač",
+    "smokes": "Pušač"
+}
+
 # Input
-gender = st.selectbox("Pol", enkoderi['gender'].classes_)
+gender_opcije = [gender_mapping[klasa] for klasa in enkoderi['gender'].classes_]
+gender_odabran = st.selectbox("Pol", gender_opcije)
+gender = enkoderi['gender'].classes_[gender_opcije.index(gender_odabran)]
 age = st.number_input("Godine", min_value=0, max_value=120, value=25)
 hypertension = st.selectbox("Hipertenzija", [0, 1])
 heart_disease = st.selectbox("Srčano Oboljenje", [0, 1])
-ever_married = st.selectbox("Brak", enkoderi['ever_married'].classes_)
-work_type = st.selectbox("Posao", enkoderi['work_type'].classes_)
-Residence_type = st.selectbox("Mjesto Prebivališta", enkoderi['Residence_type'].classes_)
+ever_married_opcije = [ever_married_mapping[klasa] for klasa in enkoderi['ever_married'].classes_]
+ever_married_odabran = st.selectbox("U Braku", ever_married_opcije)
+ever_married = enkoderi['ever_married'].classes_[ever_married_opcije.index(ever_married_odabran)]
+work_type_opcije = [work_type_mapping[klasa] for klasa in enkoderi['work_type'].classes_]
+work_type_odabran = st.selectbox("Posao", work_type_opcije)
+work_type = enkoderi['work_type'].classes_[work_type_opcije.index(work_type_odabran)]
+Residence_type_opcije = [Residence_type_mapping[klasa] for klasa in enkoderi['Residence_type'].classes_]
+Residence_type_odabran = st.selectbox("Mjesto Prebivališta", Residence_type_opcije)
+Residence_type = enkoderi['Residence_type'].classes_[Residence_type_opcije.index(Residence_type_odabran)]
 avg_glucose_level = st.number_input("Šećer", min_value=0.0, value=100.0)
 bmi = st.number_input("BMI", min_value=0.0, value=25.0)
-smoking_status = st.selectbox("Pušač", enkoderi['smoking_status'].classes_)
+smoking_status_opcije = [smoking_status_mapping[klasa] for klasa in enkoderi['smoking_status'].classes_]
+smoking_status_odabran = st.selectbox("Pušač", smoking_status_opcije)
+smoking_status = enkoderi['smoking_status'].classes_[smoking_status_opcije.index(smoking_status_odabran)]
+
 
 
 input_data = {
