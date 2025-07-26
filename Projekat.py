@@ -12,7 +12,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-podaci = pd.read_csv("C:\\Users\\Lenovo\\Desktop\\University 2024-25\\Diplomski\\final_modified_healthcare-dataset-stroke-data.csv") #
+podaci = pd.read_csv("final_modified_healthcare-dataset-stroke-data.csv") #
 
 
 podaci.replace('?', np.nan, inplace=True) #
